@@ -1,0 +1,3 @@
+<jboss-web>
+    <context-root>game-curio</context-root>
+</jboss-web>
