@@ -4,9 +4,12 @@ plugins {
 
 repositories {
     jcenter()
+	mavenCentral() /*required for primefaces*/
 }
 
 dependencies {
     testImplementation 'junit:junit:4.12'
 	compile 'javax:javaee-api:7.0'
+	compile 'org.primefaces:primefaces:7.0'
+	compile 'net.bootsfaces:bootsfaces:1.4.1'
 }
