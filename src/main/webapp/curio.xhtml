@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:h="http://xmlns.jcp.org/jsf/html"
+	  xmlns:p="http://primefaces.org/ui"
+	  xmlns:b="http://bootsfaces.net/ui"
+	  xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+	<title>Game Curio</title>
+	<h:outputStylesheet library="css" name="curio-style.css"/>
+</h:head>
+
+<body>
+
+<f:view>
+	<div class="curio">
+		<div class="curio-title">
+			<h1>JavaEE 7 Demonstration</h1>
+		</div>
+
+		<div class="curio-input">
+			<b:inputText placeholder="Game title">
+				<f:facet name="prepend">
+					<b:button value="Search" look="primary"/>
+				</f:facet>
+			</b:inputText>
+
+		</div>
+
+		<div class="game-info">
+			<p:fieldset legend="Game Info">
+				<h:panelGrid columns="2" cellpadding="5">
+					<h:outputText value="Game info will be shown here!"/>
+				</h:panelGrid>
+			</p:fieldset>
+		</div>
+
+		<p:button value="Add to DB" style="position: relative; left:370px; top:15px;">
+			<f:param name="productId" value="10"/>
+		</p:button>
+	</div>
+</f:view>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+.curio {
+	position: absolute;
+	top: 25%;
+	left: 50%;
+	width: 500px;
+	/* bring your own prefixes */
+	transform: translate(-50%, -25%);
+
+	border: 1px solid darkgrey;
+	border-radius: 5px;
+
+	padding: 10px 10px 25px 10px;
+}
+
+.curio .game-info {
+	margin-top: 20px;
+}
+
+.curio .game-info fieldset legend {
+	border: 0;
+	padding: 0 1px 1px 10px;
+	margin-bottom: 0;
+	background: darkseagreen;
+	width: 95px;
+	font-size: medium;
+	font-weight: 100;
+}
