@@ -1,5 +1,7 @@
 package game.curio;
 
+import static java.lang.String.format;
+
 import javax.ejb.Stateless;
 import javax.inject.Named;
 
@@ -32,6 +34,11 @@ public class CurioSearch {
 	}
 
 	public void updateOutput() {
-		this.output = "output updated!";
+		if (input.equalsIgnoreCase("darkest dungeon")) {
+			output = "You searched for \"Darkest Dungeon\", which is correct!";
+		}
+		else {
+			output = format("You searched for '%s' which is the wrong game, try again!", input);
+		}
 	}
 }
