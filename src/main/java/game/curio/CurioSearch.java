@@ -2,7 +2,7 @@ package game.curio;
 
 import static java.lang.String.format;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
@@ -10,9 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * @author AdNovum Informatik AG
  */
-
 @Named // enable injection in EL
-@Stateless
+@RequestScoped
 public class CurioSearch {
 
 	private String input;
@@ -38,6 +37,7 @@ public class CurioSearch {
 	public void updateOutput() {
 		if (StringUtils.isBlank(input)) {
 			output = "Please enter a game title to search";
+			return;
 		}
 		if (input.equalsIgnoreCase("darkest dungeon")) {
 			output = "You searched for \"Darkest Dungeon\", which is correct!";
