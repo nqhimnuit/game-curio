@@ -8,6 +8,10 @@
 	<servlet>
 		<servlet-name>CurioServlet</servlet-name>
 		<servlet-class>game.curio.CurioServlet</servlet-class>
+		<init-param>
+			<param-name>CurioInitParamWeb</param-name>
+			<param-value>This is Curio Init Param from web.xml</param-value>
+		</init-param>
 	</servlet>
 
 	<servlet>
