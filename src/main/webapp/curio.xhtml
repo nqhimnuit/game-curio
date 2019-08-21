@@ -20,8 +20,8 @@
 				</div>
 
 				<div class="curio-input">
-					<b:inputText placeholder="Game title" value="#{curioSearch.input}">
-						<f:facet name="prepend">f
+					<b:inputText placeholder="Game title" value="${curioSearch.input}">
+						<f:facet name="prepend">
 							<b:commandButton value="Search" look="primary"
 									action="#{curioSearch.updateOutput}" />
 						</f:facet>
