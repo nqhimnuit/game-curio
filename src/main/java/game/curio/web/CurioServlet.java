@@ -1,4 +1,4 @@
-package game.curio;
+package game.curio.web;
 
 import java.io.BufferedReader;
 import java.io.IOException;
