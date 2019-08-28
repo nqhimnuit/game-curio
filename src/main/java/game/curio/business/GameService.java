@@ -13,7 +13,7 @@ import game.curio.entities.GameEntity;
 public class GameService extends ServiceSupport {
 
 	public GameEntity getGameById(Long id) {
-		return emf.createEntityManager().find(GameEntity.class, id);
+		return em.find(GameEntity.class, id);
 	}
 
 }
