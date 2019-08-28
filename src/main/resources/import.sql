@@ -1,0 +1,1 @@
+insert into game (id, title, release_date, description, price) values (1, 'Batman: Arkham Asylum Game of the Year Edition', date '2010-03-27', concat('Experience what it’s like to be Batman and face off against Gotham''s greatest', 'villians. Explore every inch of Arkham Asylum and roam freely on the infamous island.'), 188000)

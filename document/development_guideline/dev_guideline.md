@@ -12,15 +12,15 @@
 ## Convert Issue to Pull request
 1. create new branch
 ```
-$ git checkout -b ISSUE-<NUMBER>
+$ git checkout -b <BRANCH-ID>
 ```
 
 2. work on new branch, push to repo
 ```
-$ git push -u origin ISSUE-<NUMBER>
+$ git push -u origin <BRANCH-ID>
 ```
 
 3. create pull request by:
 ```
-$ curl --user "nqhimnuit" --request POST --data '{"issue": <NUMBER>, "head": "nqhimnuit:ISSUE-<NUMBER>", "base": "master"}' https://api.github.com/repos/nqhimnuit/game-curio/pulls
+$ curl --user "nqhimnuit" --request POST --data '{"issue": <ID>, "head": "nqhimnuit:<BRANCH-ID>", "base": "master"}' https://api.github.com/repos/nqhimnuit/game-curio/pulls
 ```

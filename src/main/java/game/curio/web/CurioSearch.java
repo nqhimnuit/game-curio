@@ -1,4 +1,4 @@
-package game.curio;
+package game.curio.web;
 
 import static java.lang.String.format;
 
