@@ -1,17 +1,17 @@
 package game.curio.business;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.Persistence;
 
 /**
  * @author AdNovum Informatik AG
  */
 abstract class ServiceSupport {
 
-	@PersistenceContext(unitName = "CURIO-PU")
-	protected EntityManager em;
+	static final EntityManager em;
 
-	//@PersistenceUnit(unitName = "CURIO-PU")
-	//EntityManagerFactory emf;
+	static {
+		em = Persistence.createEntityManagerFactory("CURIO-PU-MARIADB").createEntityManager();
+	}
 
 }
