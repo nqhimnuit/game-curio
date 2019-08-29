@@ -28,7 +28,7 @@ public class CurioServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		handleGetRequest(req, res);
 		res.getWriter().write("\n");
-		res.getWriter().write(gameService.getGameById(1L).toString());
+		res.getWriter().write(gameService.getGameById(2L).toString());
 		res.getWriter().write("\n");
 	}
 
