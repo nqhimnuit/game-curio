@@ -18,7 +18,7 @@ web.xml:
 ...
     <servlet>
         <servlet-name>CurioServlet</servlet-name>
-        <servlet-class>game.curio.web.CurioServlet</servlet-class>
+        <servlet-class>game.curio.web.servlet.CurioServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>

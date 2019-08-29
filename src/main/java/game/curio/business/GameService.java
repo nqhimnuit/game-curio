@@ -1,5 +1,6 @@
 package game.curio.business;
 
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -7,6 +8,8 @@ import javax.persistence.criteria.Root;
 
 import game.curio.entities.GameEntity;
 import game.curio.entities.GameEntity_;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author AdNovum Informatik AG
@@ -14,12 +17,59 @@ import game.curio.entities.GameEntity_;
 @Stateless
 public class GameService extends ServiceSupport {
 
+	private static final Logger LOG = LogManager.getLogger(GameService.class);
+
 	public GameEntity getGameById(Long id) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<GameEntity> query = cb.createQuery(GameEntity.class);
 		Root<GameEntity> root = query.from(GameEntity.class);
 		query.where(cb.equal(root.get(GameEntity_.id), id));
-		return getSingleResult(em.createQuery(query).getResultList());
+		GameEntity game = getSingleResult(em.createQuery(query).getResultList());
+		LOG.info("found game with id = {}: {}", id, game);
+		return game;
+	}
+
+	public Long insertGame(String title, Date releaseDate, String description, Double price) {
+		LOG.info("entering insertGame....");
+		GameEntity game = setGameEntity(title, releaseDate, description, price);
+		trx.begin();
+		try {
+			em.persist(game);
+			trx.commit();
+		}
+		catch (Exception e) {
+			LOG.error("ERROR during transaction: {}", e.getMessage());
+			trx.rollback();
+			return null;
+		}
+		LOG.info("persisted {}", game.toString());
+		return game.getId();
+	}
+
+	public void deleteGame(Long gameId) {
+		LOG.info("entering deleteGame....");
+		GameEntity game = getGameById(gameId);
+		em.remove(game);
+		trx.begin();
+		try {
+			trx.commit();
+		}
+		catch (Exception e) {
+			LOG.error("ERROR during delete Game entity: {}", e.getMessage());
+			trx.rollback();
+		}
+		LOG.info("Game deleted!");
+	}
+
+	private GameEntity setGameEntity(String title, Date releaseDate, String description,
+			Double price) {
+
+		GameEntity game = new GameEntity();
+		game.setTitle(title);
+		game.setReleaseDate(releaseDate);
+		game.setDescription(description);
+		game.setPrice(price);
+		return game;
 	}
 
 }

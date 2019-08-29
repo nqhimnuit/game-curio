@@ -2,6 +2,7 @@ package game.curio.business;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,8 +17,11 @@ abstract class ServiceSupport {
 
 	static final EntityManager em;
 
+	static final EntityTransaction trx;
+
 	static {
 		em = Persistence.createEntityManagerFactory("CURIO-PU-MARIADB").createEntityManager();
+		trx = em.getTransaction();
 	}
 
 	<T> T getSingleResult(List<T> results) {
@@ -32,5 +36,19 @@ abstract class ServiceSupport {
 		}
 
 		return results.get(0);
+	}
+
+	public void updateEntity() {
+		LOG.info("entering update entity....");
+		trx.begin();
+		try {
+			//em.merge(gameEntity);
+			trx.commit();
+		}
+		catch (Exception e) {
+			LOG.error("ERROR during update entity: {}", e.getMessage());
+			trx.rollback();
+		}
+		LOG.info("Entity updated");
 	}
 }

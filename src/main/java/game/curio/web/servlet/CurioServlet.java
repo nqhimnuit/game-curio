@@ -1,16 +1,14 @@
-package game.curio.web;
+package game.curio.web.servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.inject.Inject;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import game.curio.business.GameService;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -21,15 +19,9 @@ import org.apache.commons.lang3.StringUtils;
 })
 public class CurioServlet extends HttpServlet {
 
-	@Inject
-	private GameService gameService;
-
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
 		handleGetRequest(req, res);
-		res.getWriter().write("\n");
-		res.getWriter().write(gameService.getGameById(2L).toString());
-		res.getWriter().write("\n");
 	}
 
 	@Override
