@@ -7,11 +7,31 @@
 	<!--===================== SERVLETS =====================-->
 	<servlet>
 		<servlet-name>CurioServlet</servlet-name>
-		<servlet-class>game.curio.web.CurioServlet</servlet-class>
+		<servlet-class>game.curio.web.servlet.CurioServlet</servlet-class>
 		<init-param>
 			<param-name>CurioInitParamWeb</param-name>
 			<param-value>This is Curio Init Param from web.xml</param-value>
 		</init-param>
+	</servlet>
+
+	<servlet>
+		<servlet-name>GameServlet</servlet-name>
+		<servlet-class>game.curio.web.servlet.entity.GameServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>DeveloperServlet</servlet-name>
+		<servlet-class>game.curio.web.servlet.entity.DeveloperServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>PublisherServlet</servlet-name>
+		<servlet-class>game.curio.web.servlet.entity.PublisherServlet</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>DlcServlet</servlet-name>
+		<servlet-class>game.curio.web.servlet.entity.DlcServlet</servlet-class>
 	</servlet>
 
 	<servlet>
@@ -23,7 +43,27 @@
 	<!--===================== MAPPINGS =====================-->
 	<servlet-mapping>
 		<servlet-name>CurioServlet</servlet-name>
-		<url-pattern>/curio</url-pattern>
+		<url-pattern>curio</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>GameServlet</servlet-name>
+		<url-pattern>game</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>DeveloperServlet</servlet-name>
+		<url-pattern>developer</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>PublisherServlet</servlet-name>
+		<url-pattern>publisher</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>DlcServlet</servlet-name>
+		<url-pattern>dlc</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>
