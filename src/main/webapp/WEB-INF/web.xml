@@ -35,6 +35,11 @@
 	</servlet>
 
 	<servlet>
+		<servlet-name>CookieHandlingServlet</servlet-name>
+		<servlet-class>game.curio.web.servlet.CookieHandlingServlet</servlet-class>
+	</servlet>
+
+	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
 		<load-on-startup>1</load-on-startup> <!--dont know what this is used for-->
@@ -64,6 +69,11 @@
 	<servlet-mapping>
 		<servlet-name>DlcServlet</servlet-name>
 		<url-pattern>dlc</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>CookieHandlingServlet</servlet-name>
+		<url-pattern>cookie</url-pattern>
 	</servlet-mapping>
 
 	<servlet-mapping>

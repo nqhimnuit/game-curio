@@ -1,24 +1,19 @@
 package game.curio.web.servlet.entity;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import game.curio.entities.GameEntity;
 import game.curio.web.servlet.CurioBusinessServlet;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
  * @author AdNovum Informatik AG
- * tested with cURL:
- * $ curl -X GET http://localhost:8080/game-curio/get-game
- * $ curl -X DELETE 'http://localhost:8080/game-curio/delete-game?id=8'
- * $ curl -X PUT 'http://localhost:8080/game-curio/insert-game?title=Batminh&description=this+is
- * +a+game+of+minh&price=1000'
- * $ curl -X POST 'http://localhost:8080/game-curio/update-game?id=6&title=My+Game&description=my
- * +description&price=888.8'
  */
 public class GameServlet extends CurioBusinessServlet {
 
@@ -26,8 +21,13 @@ public class GameServlet extends CurioBusinessServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		String charset = StringUtils.defaultIfBlank(req.getHeader("accept-charset"), "utf-8");
+		res.setContentType("text/html; charset=" + charset);
+
 		Long id = Long.valueOf(req.getParameter("id"));
-		res.getWriter().write(gameService.getGameById(id).toString() + "\n");
+		PrintWriter writer = res.getWriter();
+		writer.println(gameService.getGameById(id).toString());
+		writer.println("user agent: " + req.getHeader("user-agent"));
 	}
 
 	@Override
