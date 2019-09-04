@@ -29,7 +29,7 @@ public class GameService extends ServiceSupport {
 		return game;
 	}
 
-	public Long insertGame(String title, Date releaseDate, String description, Double price) {
+	public GameEntity insertGame(String title, Date releaseDate, String description, Double price) {
 		LOG.info("entering insertGame....");
 		GameEntity game = setGameEntity(title, releaseDate, description, price);
 		trx.begin();
@@ -43,7 +43,7 @@ public class GameService extends ServiceSupport {
 			return null;
 		}
 		LOG.info("persisted {}", game.toString());
-		return game.getId();
+		return game;
 	}
 
 	public void deleteGame(Long gameId) {
