@@ -1,12 +1,14 @@
 package game.curio.web.servlet.entity;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import game.curio.entities.GameEntity;
 import game.curio.web.servlet.CurioBusinessServlet;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,11 +21,13 @@ public class GameServlet extends CurioBusinessServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
-		String charset = req.getHeader("accept-charset");
+		String charset = StringUtils.defaultIfBlank(req.getHeader("accept-charset"), "utf-8");
 		res.setContentType("text/html; charset=" + charset);
 
 		Long id = Long.valueOf(req.getParameter("id"));
-		res.getWriter().println(gameService.getGameById(id).toString() + "\n");
+		PrintWriter writer = res.getWriter();
+		writer.println(gameService.getGameById(id).toString());
+		writer.println("user agent: " + req.getHeader("user-agent"));
 	}
 
 	@Override
