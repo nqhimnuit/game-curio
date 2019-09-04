@@ -12,13 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * @author AdNovum Informatik AG
- * tested with cURL:
- * $ curl -X GET http://localhost:8080/game-curio/get-game
- * $ curl -X DELETE 'http://localhost:8080/game-curio/delete-game?id=8'
- * $ curl -X PUT 'http://localhost:8080/game-curio/insert-game?title=Batminh&description=this+is
- * +a+game+of+minh&price=1000'
- * $ curl -X POST 'http://localhost:8080/game-curio/update-game?id=6&title=My+Game&description=my
- * +description&price=888.8'
  */
 public class GameServlet extends CurioBusinessServlet {
 
@@ -26,8 +19,11 @@ public class GameServlet extends CurioBusinessServlet {
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse res) throws IOException {
+		String charset = req.getHeader("accept-charset");
+		res.setContentType("text/html; charset=" + charset);
+
 		Long id = Long.valueOf(req.getParameter("id"));
-		res.getWriter().write(gameService.getGameById(id).toString() + "\n");
+		res.getWriter().println(gameService.getGameById(id).toString() + "\n");
 	}
 
 	@Override
