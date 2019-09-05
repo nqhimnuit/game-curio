@@ -17,6 +17,7 @@ dependencies {
 	compile 'org.mariadb.jdbc:mariadb-java-client:2.4.3'
 	compile 'org.apache.logging.log4j:log4j-core:2.12.0'
 	annotationProcessor('org.hibernate:hibernate-jpamodelgen:5.4.4.Final')
+	compile 'org.jsoup:jsoup:1.12.1'
 }
 
 def generatedMainJava = "${buildDir}/generated/main/java"

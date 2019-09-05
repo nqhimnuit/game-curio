@@ -26,6 +26,9 @@ public class GameResource {
 	@Inject
 	private GameService gameService;
 
+	/**
+	 * E.g. http://localhost:8080/game-curio/rest/games/3/game
+	 */
 	@GET
 	@Path("/{id}/game")
 	@Produces(MediaType.APPLICATION_JSON)
