@@ -2,12 +2,9 @@ package game.curio.web.rest.dto;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 /**
  * @author AdNovum Informatik AG
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonGame {
 
 	private String title;

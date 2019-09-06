@@ -34,3 +34,9 @@ e.g.:
 $ curl -k -s -o /null -X POST 'http://localhost:8080/game-curio/update-game?id=6&title=My+Game&description=my+description&price=888.8'
 ```
 - UTF-8 vs ISO-8859-1
+
+Try to fix: UT015005: Error invoking method contextDestroyed on listener class com.sun.faces.config.ConfigureListener: java.lang.OutOfMemoryError: Metaspace
+add this option to JAVA_OPTS in $JBOSS_HOME/bin/standalone.conf
+```
+-Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true
+```
