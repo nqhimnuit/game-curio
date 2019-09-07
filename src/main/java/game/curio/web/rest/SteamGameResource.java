@@ -14,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import game.curio.web.SteamGameSearch;
-import game.curio.web.rest.dto.JsonGame;
+import game.curio.web.rest.dto.GameDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +34,7 @@ public class SteamGameResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response searchGame(@PathParam("gameTitle") String gameTitle) {
 		try {
-			JsonGame game = steamGameSearchImpl.searchGameByTitle(gameTitle);
+			GameDto game = steamGameSearchImpl.searchGameByTitle(gameTitle);
 			return Response.status(OK).entity(game).build();
 		}
 		catch (IOException | ParseException e) {

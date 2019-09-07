@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author AdNovum Informatik AG
  */
-public class JsonGame {
+public class GameDto {
 
 	private String title;
 

@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import game.curio.web.rest.dto.JsonGame;
+import game.curio.web.rest.dto.GameDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -54,7 +54,7 @@ public class SteamGameSearch {
 
 	private static final String FINAL_PRICE_NODE = "final";
 
-	public JsonGame searchGameByTitle(String title) throws IOException, ParseException {
+	public GameDto searchGameByTitle(String title) throws IOException, ParseException {
 		String htmlResult = getSteamSearchResultHtml(title);
 		List<String> appIds = getAppIds(htmlResult);
 		String appId = appIds.get(0);
@@ -62,12 +62,12 @@ public class SteamGameSearch {
 		return deserialize(gameDetails, appId);
 	}
 
-	private JsonGame deserialize(String jsonGame, String gameId)
+	private GameDto deserialize(String jsonGame, String gameId)
 			throws IOException, ParseException {
 
 		JsonNode jsonNode = new ObjectMapper().readTree(jsonGame);
 		JsonNode gameDataNode = jsonNode.get(gameId).get(ROOT_NODE);
-		JsonGame game = setGameInfo(gameDataNode);
+		GameDto game = setGameInfo(gameDataNode);
 
 		SimpleDateFormat sdt = new SimpleDateFormat(DATE_FORMAT);
 		String releaseDate = gameDataNode.get(RELEASE_DATE_ROOT_NODE).get(DATE_NODE).textValue();
@@ -101,8 +101,8 @@ public class SteamGameSearch {
 		return gameTarget.request(MediaType.APPLICATION_JSON).get(String.class);
 	}
 
-	private JsonGame setGameInfo(JsonNode gameDataNode) {
-		JsonGame game = new JsonGame();
+	private GameDto setGameInfo(JsonNode gameDataNode) {
+		GameDto game = new GameDto();
 		game.setTitle(gameDataNode.get(NAME_NODE).textValue());
 		game.setDescription(gameDataNode.get(DESCRIPTION_NODE).textValue());
 		game.setPrice(gameDataNode.get(PRICE_ROOT_NODE).get(FINAL_PRICE_NODE).doubleValue());

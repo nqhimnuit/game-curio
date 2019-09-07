@@ -6,7 +6,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import game.curio.web.rest.dto.JsonGame;
+import game.curio.web.rest.dto.GameDto;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,13 +49,18 @@ public class CurioSearch {
 			return;
 		}
 
+		GameDto game;
 		try {
-			JsonGame jsonGame = steamGameSearch.searchGameByTitle(input);
-			output = jsonGame.toString();
+			game = steamGameSearch.searchGameByTitle(input);
 		}
 		catch (IOException | ParseException e) {
 			LOG.error("ERROR: {}", e.getMessage());
 			output = "cannot search game with title: " + input;
+			return;
 		}
+		output = "Game title: " + game.getTitle() + "\n"
+				+ "Description: " + game.getDescription() + "\n"
+				+ "Release date: " + game.getReleaseDate() + "\n"
+				+ "Price: " + game.getPrice() + "\n";
 	}
 }
