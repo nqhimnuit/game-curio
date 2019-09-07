@@ -54,10 +54,21 @@ public class SteamGameSearch {
 
 	private static final String FINAL_PRICE_NODE = "final";
 
+	private static final String UTF_8 = "UTF-8";
+
+	private static final String HTML_TAG_LINK = "a";
+
+	private static final String SEARCH_RESULTS_ROWS = "search_resultsRows";
+
+	private static final String DATA_DS_APPID = "data-ds-appid";
+
 	public GameDto searchGameByTitle(String title) throws IOException, ParseException {
 		String htmlResult = getSteamSearchResultHtml(title);
 		List<String> appIds = getAppIds(htmlResult);
+
+		// TODO 07-Sep-2019/minh: issues/39: implement auto-complete:
 		String appId = appIds.get(0);
+
 		String gameDetails = getGameDetailsInfo(appId);
 		return deserialize(gameDetails, appId);
 	}
@@ -83,11 +94,11 @@ public class SteamGameSearch {
 	}
 
 	private List<String> getAppIds(String htmlResult) {
-		Document doc = Jsoup.parse(htmlResult, "UTF-8");
-		Elements links = doc.getElementById("search_resultsRows").select("a");
+		Document doc = Jsoup.parse(htmlResult, UTF_8);
+		Elements links = doc.getElementById(SEARCH_RESULTS_ROWS).select(HTML_TAG_LINK);
 		List<String> appIds = new ArrayList<>();
 		for (Element link : links) {
-			String attr = link.attr("data-ds-appid");
+			String attr = link.attr(DATA_DS_APPID);
 			if (!StringUtil.isBlank(attr)) {
 				appIds.add(attr);
 			}
