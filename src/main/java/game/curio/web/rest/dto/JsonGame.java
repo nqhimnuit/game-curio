@@ -46,4 +46,14 @@ public class JsonGame {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+
+	@Override
+	public String toString() {
+		return "JsonGame{" +
+				"title='" + title + '\'' +
+				", releaseDate=" + releaseDate +
+				", description='" + description + '\'' +
+				", price=" + price +
+				'}';
+	}
 }

@@ -1,24 +1,15 @@
-package game.curio.web.rest;
+package game.curio.web;
 
-import static javax.ws.rs.core.Response.Status.OK;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +25,7 @@ import org.jsoup.select.Elements;
 /**
  * @author AdNovum Informatik AG
  */
-@Path("steam")
+@RequestScoped
 public class SteamGameSearch {
 
 	private static final Logger LOG = LogManager.getLogger(SteamGameSearch.class);
@@ -49,6 +40,12 @@ public class SteamGameSearch {
 
 	private static final String ROOT_NODE = "data";
 
+	private static final String DATE_FORMAT = "dd MMM, yyyy";
+
+	private static final String RELEASE_DATE_ROOT_NODE = "release_date";
+
+	private static final String DATE_NODE = "date";
+
 	private static final String NAME_NODE = "name";
 
 	private static final String DESCRIPTION_NODE = "short_description";
@@ -57,23 +54,25 @@ public class SteamGameSearch {
 
 	private static final String FINAL_PRICE_NODE = "final";
 
-	private static final String DATE_FORMAT = "dd MMM, yyyy";
-
-	private static final String RELEASE_DATE_ROOT_NODE = "release_date";
-
-	private static final String DATE_NODE = "date";
-
-	@GET
-	@Path("/search/{gameTitle}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response searchGame(@PathParam("gameTitle") String gameTitle) throws IOException {
-		String htmlResult = getSteamSearchResultHtml(gameTitle);
+	public JsonGame searchGameByTitle(String title) throws IOException, ParseException {
+		String htmlResult = getSteamSearchResultHtml(title);
 		List<String> appIds = getAppIds(htmlResult);
-		String gameDetails = getGameDetailsInfo(appIds.get(0));
-		LOG.info("game details = {}", gameDetails);
+		String appId = appIds.get(0);
+		String gameDetails = getGameDetailsInfo(appId);
+		return deserialize(gameDetails, appId);
+	}
 
-		JsonGame game = deserialize(gameDetails);
-		return Response.status(OK).entity(game).build();
+	private JsonGame deserialize(String jsonGame, String gameId)
+			throws IOException, ParseException {
+
+		JsonNode jsonNode = new ObjectMapper().readTree(jsonGame);
+		JsonNode gameDataNode = jsonNode.get(gameId).get(ROOT_NODE);
+		JsonGame game = setGameInfo(gameDataNode);
+
+		SimpleDateFormat sdt = new SimpleDateFormat(DATE_FORMAT);
+		String releaseDate = gameDataNode.get(RELEASE_DATE_ROOT_NODE).get(DATE_NODE).textValue();
+		game.setReleaseDate(sdt.parse(releaseDate));
+		return game;
 	}
 
 	private String getSteamSearchResultHtml(String gameTitle) {
@@ -102,43 +101,12 @@ public class SteamGameSearch {
 		return gameTarget.request(MediaType.APPLICATION_JSON).get(String.class);
 	}
 
-	/**
-	 * https://www.baeldung.com/jackson-nested-values
-	 */
-	private JsonGame deserialize(String jsonGame) throws IOException {
-		JsonNode jsonNode = new ObjectMapper().readTree(jsonGame);
+	private JsonGame setGameInfo(JsonNode gameDataNode) {
 		JsonGame game = new JsonGame();
-		JsonNode gameDataNode = jsonNode.get("262060").get(ROOT_NODE);
 		game.setTitle(gameDataNode.get(NAME_NODE).textValue());
 		game.setDescription(gameDataNode.get(DESCRIPTION_NODE).textValue());
 		game.setPrice(gameDataNode.get(PRICE_ROOT_NODE).get(FINAL_PRICE_NODE).doubleValue());
-
-		SimpleDateFormat sdt = new SimpleDateFormat(DATE_FORMAT);
-		String releaseDate = gameDataNode.get(RELEASE_DATE_ROOT_NODE).get(DATE_NODE).textValue();
-		try {
-			game.setReleaseDate(sdt.parse(releaseDate));
-		}
-		catch (ParseException e) {
-			LOG.error("ERROR: Cannot parse release date: {}", releaseDate);
-		}
 		return game;
 	}
 
-	@Deprecated
-	private String simulateJsonGame() {
-		try {
-			File file = new File("/local/minh/projects/minh-local-project/game-curio/game.json");
-			BufferedReader bf = new BufferedReader(new FileReader(file));
-			String s;
-			StringBuilder jsonGameBuilder = new StringBuilder();
-			while ((s = bf.readLine()) != null) {
-				jsonGameBuilder.append(s);
-			}
-			return jsonGameBuilder.toString();
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-		return "";
-	}
 }
