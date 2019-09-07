@@ -1,11 +1,15 @@
 package game.curio.web;
 
-import static java.lang.String.format;
-
+import java.io.IOException;
+import java.text.ParseException;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
+import game.curio.web.rest.dto.GameDto;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author AdNovum Informatik AG
@@ -13,6 +17,11 @@ import org.apache.commons.lang3.StringUtils;
 @Named // enable injection in EL
 @RequestScoped
 public class CurioSearch {
+
+	private static final Logger LOG = LogManager.getLogger(CurioSearch.class);
+
+	@Inject
+	private SteamGameSearch steamGameSearch;
 
 	private String input;
 
@@ -39,11 +48,19 @@ public class CurioSearch {
 			output = "Please enter a game title to search";
 			return;
 		}
-		if (input.equalsIgnoreCase("darkest dungeon")) {
-			output = "You searched for \"Darkest Dungeon\", which is correct!";
+
+		GameDto game;
+		try {
+			game = steamGameSearch.searchGameByTitle(input);
 		}
-		else {
-			output = format("You searched for '%s' which is the wrong game, try again!", input);
+		catch (IOException | ParseException e) {
+			LOG.error("ERROR: {}", e.getMessage());
+			output = "cannot search game with title: " + input;
+			return;
 		}
+		output = "Game title: " + game.getTitle() + "\n"
+				+ "Description: " + game.getDescription() + "\n"
+				+ "Release date: " + game.getReleaseDate() + "\n"
+				+ "Price: " + game.getPrice() + "\n";
 	}
 }
