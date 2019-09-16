@@ -1,14 +1,20 @@
 plugins {
-    id 'war'
+	id 'war'
 }
 
 repositories {
-    jcenter()
+	jcenter()
 	mavenCentral() /*required for primefaces*/
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+	testImplementation 'junit:junit:4.12'
+	testCompile 'org.jboss.arquillian.junit:arquillian-junit-container:1.1.15.Final'
+	testCompile 'org.jboss.arquillian:arquillian-bom:1.1.15.Final'
+	testCompile 'org.jboss.arquillian.container:arquillian-weld-ee-embedded-1.1:1.0.0.CR9'
+	testCompile 'org.jboss.weld:weld-core:2.3.5.Final'
+	testCompile 'org.slf4j:slf4j-simple:1.6.4'
+
 	compileOnly 'javax:javaee-api:7.0'
 	compile 'org.primefaces:primefaces:7.0'
 	compile 'net.bootsfaces:bootsfaces:1.4.1'
