@@ -40,3 +40,11 @@ add this option to JAVA_OPTS in $JBOSS_HOME/bin/standalone.conf
 ```
 -Dcom.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize=true
 ```
+
+
+try IGDB:
+search game including dlcs by name:
+$ curl 'https://api-v3.igdb.com/games' -d 'search "darkest dungeon"; fields name,dlcs;' -H 'user-key: <KEY>' -H 'Accept: application/json'
+
+sesarch game by id:
+$ curl 'https://api-v3.igdb.com/games' -d 'fields name; where id = 8965;' -H 'user-key: 2390fd7f9c2dcc1a37c02cd52958c6b4' -H 'Accept: application/json'

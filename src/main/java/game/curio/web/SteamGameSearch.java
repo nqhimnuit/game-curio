@@ -63,6 +63,7 @@ public class SteamGameSearch {
 	private static final String DATA_DS_APPID = "data-ds-appid";
 
 	public GameDto searchGameByTitle(String title) throws IOException, ParseException {
+		// try this api: https://partner.steamgames.com/doc/webapi/ISteamApps
 		String htmlResult = getSteamSearchResultHtml(title);
 		List<String> appIds = getAppIds(htmlResult);
 
