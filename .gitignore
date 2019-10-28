@@ -31,3 +31,7 @@ build
 
 # Idea files
 *.iml
+
+.classpath
+.project
+.settings/
