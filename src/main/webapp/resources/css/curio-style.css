@@ -16,12 +16,6 @@
 	margin-top: 20px;
 }
 
-.curio .game-info fieldset legend {
-	border: 0;
-	padding: 0 1px 1px 10px;
-	margin-bottom: 0;
-	background: darkseagreen;
-	width: 95px;
-	font-size: medium;
-	font-weight: 100;
+.curio-input {
+	margin-left: 10px;
 }
