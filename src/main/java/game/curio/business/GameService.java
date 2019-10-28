@@ -1,15 +1,18 @@
 package game.curio.business;
 
 import java.util.Date;
+
 import javax.ejb.Stateless;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
-import game.curio.entities.GameEntity;
-import game.curio.entities.GameEntity_;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import game.curio.entities.GameEntity;
+import game.curio.entities.GameEntity_;
+import game.curio.web.rest.dto.GameDto;
 
 /**
  * @author AdNovum Informatik AG
@@ -27,6 +30,28 @@ public class GameService extends ServiceSupport {
 		GameEntity game = getSingleResult(em.createQuery(query).getResultList());
 		LOG.info("found game with id = {}: {}", id, game);
 		return game;
+	}
+
+	public GameDto getGameByTitle(String title) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<GameEntity> query = cb.createQuery(GameEntity.class);
+		Root<GameEntity> root = query.from(GameEntity.class);
+		query.where(cb.equal(root.get(GameEntity_.title), title));
+		GameEntity game = getSingleResult(em.createQuery(query).getResultList());
+		LOG.info("found game with title = {}: {}", title, game);
+		return convertEntityToDto(game);
+	}
+
+	private GameDto convertEntityToDto(GameEntity game) {
+		if (game == null) {
+			return null;
+		}
+		GameDto result = new GameDto();
+		result.setDescription(game.getDescription());
+		result.setTitle(game.getTitle());
+		result.setPrice(game.getPrice());
+		result.setReleaseDate(game.getReleaseDate());
+		return result;
 	}
 
 	public GameEntity insertGame(String title, Date releaseDate, String description, Double price) {

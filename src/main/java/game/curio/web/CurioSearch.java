@@ -5,7 +5,9 @@ import java.text.ParseException;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityNotFoundException;
 
+import game.curio.business.GameService;
 import game.curio.web.rest.dto.GameDto;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +24,9 @@ public class CurioSearch {
 
 	@Inject
 	private SteamGameSearch steamGameSearch;
+
+	@Inject
+	private GameService gameService;
 
 	private String input;
 
@@ -49,18 +54,24 @@ public class CurioSearch {
 			return;
 		}
 
-		GameDto game;
-		try {
-			game = steamGameSearch.searchGameByTitle(input);
+		GameDto game = gameService.getGameByTitle(input);
+
+		if (game == null) {
+			try {
+				game = steamGameSearch.searchGameByTitle(input);
+			} catch (IOException | ParseException e) {
+				LOG.error("ERROR: {}", e.getMessage());
+				output = "cannot search game with title: " + input;
+				return;
+			}
 		}
-		catch (IOException | ParseException e) {
-			LOG.error("ERROR: {}", e.getMessage());
-			output = "cannot search game with title: " + input;
-			return;
+
+		if (game == null) {
+			throw new EntityNotFoundException("the game you searched could not be found in our" +
+			" database and Steam, please try other title");
 		}
-		output = "Game title: " + game.getTitle() + "\n"
-				+ "Description: " + game.getDescription() + "\n"
-				+ "Release date: " + game.getReleaseDate() + "\n"
-				+ "Price: " + game.getPrice() + "\n";
+
+		output = "Game title: " + game.getTitle() + "\n" + "Description: " + game.getDescription() + "\n"
+				+ "Release date: " + game.getReleaseDate() + "\n" + "Price: " + game.getPrice() + "\n";
 	}
 }
