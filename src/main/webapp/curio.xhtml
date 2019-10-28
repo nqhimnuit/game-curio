@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-		xmlns:h="http://xmlns.jcp.org/jsf/html"
-		xmlns:p="http://primefaces.org/ui"
-		xmlns:b="http://bootsfaces.net/ui"
-		xmlns:f="http://xmlns.jcp.org/jsf/core">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 
 <h:head>
 	<title>Game Curio</title>
@@ -19,28 +16,25 @@
 					<h1>JavaEE 7 Demonstration</h1>
 				</div>
 
-				<div class="curio-input">
-					<b:inputText placeholder="Game title" value="${curioSearch.input}">
-						<f:facet name="prepend">
-							<b:commandButton value="Search" look="primary"
-									action="#{curioSearch.updateOutput}" />
-						</f:facet>
-					</b:inputText>
+				<div>
+					<h:inputText value="${curioSearch.input}" a:placeholder="Game title"
+						styleClass="curio-input" />
+					<h:commandButton value="Search" action="#{curioSearch.updateOutput}" />
 				</div>
 
 				<div class="game-info">
-					<p:fieldset legend="Game Info">
-						<h:panelGrid columns="2" cellpadding="5">
-							<h:outputText value="${curioSearch.output}" />
-						</h:panelGrid>
-					</p:fieldset>
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputText value="${curioSearch.output}" />
+					</h:panelGrid>
 				</div>
 
-				<p:button value="Add to DB" style="position: relative; left:370px; top:15px;">
+				<h:commandButton value="Add to DB"
+					style="position: relative; left:370px; top:15px;">
 					<f:param name="productId" value="10" />
-				</p:button>
+				</h:commandButton>
 			</div>
 		</h:form>
 	</f:view>
 </h:body>
+
 </html>

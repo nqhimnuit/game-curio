@@ -4,14 +4,11 @@ plugins {
 
 repositories {
     jcenter()
-	mavenCentral() /*required for primefaces*/
 }
 
 dependencies {
     testImplementation 'junit:junit:4.12'
 	compileOnly 'javax:javaee-api:7.0'
-	compile 'org.primefaces:primefaces:7.0'
-	compile 'net.bootsfaces:bootsfaces:1.4.1'
 	compile 'org.apache.commons:commons-lang3:3.9'
 	compile 'org.hibernate:hibernate-core:5.3.11.Final'
 	compile 'org.mariadb.jdbc:mariadb-java-client:2.4.3'
